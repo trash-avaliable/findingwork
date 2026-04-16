@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dq3mgp66elt8t"]
+
+[ext_resource type="Shader" uid="uid://da0tne8wrboju" path="res://shader/holograph.gdshader" id="1_phc3d"]
+
+[resource]
+shader = ExtResource("1_phc3d")
+shader_parameter/hologram_color = Color(0.2, 0.9, 0.7, 1)
+shader_parameter/brightness = 0.974000046265
+shader_parameter/edge_glow = 0.410000019475
+shader_parameter/scanline_speed = 1.5
+shader_parameter/scanline_density = 60.0
+shader_parameter/scanline_thickness = 0.4
+shader_parameter/grid_density = 12.0
+shader_parameter/grid_thickness = 0.08
+shader_parameter/grid_speed = 0.10000024225000015
+shader_parameter/glitch_strength = 0.0
+shader_parameter/glitch_speed = 0.10000000149012

@@ -24,6 +24,25 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 10
 
+[sub_resource type="Gradient" id="Gradient_hvfyp"]
+offsets = PackedFloat32Array(0, 0.22087379)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_l8h54"]
+gradient = SubResource("Gradient_hvfyp")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4ntmi"]
+lifetime_randomness = 0.2
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(320, 250, 0)
+emission_shape_scale = Vector3(3.33, 1, 1.14)
+emission_shape = 2
+emission_sphere_radius = 128.0
+direction = Vector3(0, -1, 0)
+gravity = Vector3(0, -98, 0)
+scale_max = 9.0
+
 [node name="Player" type="Area2D" unique_id=1141867496]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=570686829]
@@ -36,12 +55,12 @@ offset_right = 40.0
 offset_bottom = 40.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_l8h54")
 
-[node name="PanelContainer" type="Panel" parent="." unique_id=1019905705]
+[node name="Face" type="Panel" parent="." unique_id=1019905705]
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_4ntmi")
 
-[node name="LeftEye" type="Panel" parent="PanelContainer" unique_id=1054221739]
+[node name="LeftEye" type="Panel" parent="Face" unique_id=1054221739]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 1
 anchors_preset = 8
@@ -59,7 +78,7 @@ rotation = 0.7853982
 pivot_offset = Vector2(5, 5)
 theme_override_styles/panel = SubResource("StyleBoxFlat_btcbx")
 
-[node name="RightEye" type="Panel" parent="PanelContainer" unique_id=45960671]
+[node name="RightEye" type="Panel" parent="Face" unique_id=45960671]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 1
 anchors_preset = 8
@@ -79,3 +98,21 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_btcbx")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=532806912]
 zoom = Vector2(2, 2)
+
+[node name="ColorRect" type="TextureRect" parent="Camera2D" unique_id=890710539]
+custom_minimum_size = Vector2(640, 360)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -317.0
+offset_top = -178.0
+offset_right = 323.0
+offset_bottom = 182.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_l8h54")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Camera2D/ColorRect" unique_id=1013846559]
+process_material = SubResource("ParticleProcessMaterial_4ntmi")
