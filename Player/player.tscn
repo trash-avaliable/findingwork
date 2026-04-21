@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://bp0trghek7042"]
 
+[ext_resource type="Script" uid="uid://cvg262mdokx20" path="res://Player/player.gd" id="1_l8h54"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hvfyp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l8h54"]
@@ -44,6 +46,7 @@ gravity = Vector3(0, -98, 0)
 scale_max = 9.0
 
 [node name="Player" type="Area2D" unique_id=1141867496]
+script = ExtResource("1_l8h54")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=570686829]
 position = Vector2(20, 20)

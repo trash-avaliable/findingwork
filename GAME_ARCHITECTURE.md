@@ -37,12 +37,12 @@ BulletData:
   - attack: 基础攻击力
   - energy_cost: 能量消耗
   - damage_type: 伤害类型枚举
-    * NORMAL: 普通伤害
-    * DOT: 持续伤害（DoT）
-    * SLOW: 减速
-    * TREMOR: 震颤（降低防御）
-    * EXPLOSION: 爆炸（必定暴击）
-    * TRUE_DAMAGE: 真伤（无视防御）
+	* NORMAL: 普通伤害
+	* DOT: 持续伤害（DoT）
+	* SLOW: 减速
+	* TREMOR: 震颤（降低防御）
+	* EXPLOSION: 爆炸（必定暴击）
+	* TRUE_DAMAGE: 真伤（无视防御）
   - damage_value: 类型特定参数
   - duration: 持续时间
   - segments: DOT分段数
@@ -155,7 +155,7 @@ enemy_hp -= result.damage
 
 # 应用状态效果
 if result.damage_type == DamageCalculator.DamageType.SLOW:
-    enemy_speed = DamageCalculator.apply_slow(enemy_speed, result.damage)
+	enemy_speed = DamageCalculator.apply_slow(enemy_speed, result.damage)
 ```
 
 ### 升级触发
@@ -204,8 +204,8 @@ res://data/
   │   ├── spider.tres (EnemyData)
   │   └── goblin.tres
   └── buffs/
-      ├── buff_atk_up.tres (StrategyBuff)
-      └── buff_weapon_sword.tres
+	  ├── buff_atk_up.tres (StrategyBuff)
+	  └── buff_weapon_sword.tres
 ```
 
 ## 扩展建议
