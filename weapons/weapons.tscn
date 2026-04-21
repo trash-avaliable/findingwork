@@ -3,3 +3,11 @@
 [node name="Weapons" type="Node2D" unique_id=901470728]
 
 [node name="Clothes" type="Node2D" parent="." unique_id=1962127366]
+
+[node name="AttackCategory" type="Node" parent="." unique_id=308165820]
+
+[node name="AttackAnchor" type="Node2D" parent="." unique_id=144192080]
+
+[node name="DetectRange" type="Area2D" parent="." unique_id=823573715]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRange" unique_id=1817308185]

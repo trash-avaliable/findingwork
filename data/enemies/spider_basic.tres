@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resource/states/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "spider_basic"
+name = "小型蜘蛛"
+monster_scene = "res://scenes/enemies/spider_basic.tscn"
+ai_type = 0
+attack_range = 15.0
+projectile_scene = ""
+attack = 5.0
+defense = 2.0
+speed = 80.0
+hp = 30.0
+danger_level = 1
+spawn_weight = 100.0
+skillscene = ""
+cost = 5
+can_split = false
+split_into = []
+split_count = 0

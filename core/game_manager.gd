@@ -89,32 +89,11 @@ func level_up_player() -> void:
 	buff_selection_needed.emit(options)
 
 ## 应用选中的 Buff
-func apply_selected_buff(buff) -> void:
-	if not game_state_module or not game_state_module.player:
+func apply_selected_buff(buff: StrategyBuff) -> void:
+	if not game_state_module or not game_state_module.player or not strategy_manager:
 		return
 	
-	# 这里需要手动应用，因为player是字典形式
-	match buff.buff_type if buff else -1:
-		0:  # WEAPON
-			if buff.item_id not in game_state_module.player["owned_weapons"]:
-				game_state_module.player["owned_weapons"].append(buff.item_id)
-		1:  # BULLET
-			if buff.item_id not in game_state_module.player["owned_bullets"]:
-				game_state_module.player["owned_bullets"].append(buff.item_id)
-		2:  # ATTACK_UP
-			game_state_module.player["attack"] += buff.value
-		3:  # SPEED_UP
-			game_state_module.player["speed"] += buff.value
-		4:  # DEFENSE_UP
-			game_state_module.player["defense"] += buff.value
-		5:  # GOLD_UP
-			game_state_module.player["gold"] = int(float(game_state_module.player["gold"]) * (1.0 + buff.value))
-		6:  # ENERGY_UP
-			game_state_module.player["max_energy"] += buff.value
-		7:  # CRIT_RATE_UP
-			pass  # 暴击率由武器管理
-		8:  # CRIT_DAMAGE_UP
-			pass  # 暴击伤害由武器管理
+	strategy_manager.apply_buff(game_state_module.player, buff)
 
 # ──────────────────────────────────────────────
 # 波次管理

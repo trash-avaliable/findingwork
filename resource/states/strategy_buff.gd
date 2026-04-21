@@ -2,38 +2,23 @@
 class_name StrategyBuff
 extends SaveResource
 
-## Buff 类型枚举
-enum BuffType {
-	WEAPON,          # 获得新武器
-	BULLET,          # 获得新子弹
-	ATTACK_UP,       # 攻击力提升
-	SPEED_UP,        # 移速提升
-	DEFENSE_UP,      # 防御力提升
-	GOLD_UP,         # 金币倍增
-	ENERGY_UP,       # 能量上限提高
-	CRIT_RATE_UP,    # 暴击率提高
-	CRIT_DAMAGE_UP,  # 暴击伤害提高
-}
-
-## 稀有度
-enum Rarity { NORMAL, RARE, LEGEND }
-
 ## Buff 基本信息
 var id: String = ""
-var buff_name: String = ""
-var description: String = ""
+var name: String = "" # 策略名
+var category: String = "normal" # normal, rare, legend
 
-## Buff 类型
-var buff_type: BuffType = BuffType.ATTACK_UP
+## 描述信息
+var part_description: String = "" # 粗略描述
+var full_description: String = "" # 详细描述
 
-## 稀有度
-var rarity: Rarity = Rarity.NORMAL
+## 替换逻辑
+var type_replace: Array = [] # 类型替换描述（对应 modifier_value 里的键）
+var value_replace: Array = [] # 数值替换描述（对应 modifier_value 里的值）
 
-## Buff 数值（根据类型决定含义）
-var value: float = 0.0
-
-## 武器/子弹ID（仅对WEAPON/BULLET类型有效）
-var item_id: String = ""
+## 数值修改值
+## 键可以是：gain_weapon, gain_bullet, attack_mult, speed_add, defense_mult, gold_add, 
+## energy_max_add, weapon_crit_rate_mult, weapon_crit_damage_mult, weapon_slot_add, etc.
+var modifier_value: Dictionary = {}
 
 # ──────────────────────────────────────────────
 # SaveResource 接口
@@ -45,30 +30,28 @@ func get_type_id() -> String:
 func to_dict() -> Dictionary:
 	return {
 		"id": id,
-		"buff_name": buff_name,
-		"description": description,
-		"buff_type": buff_type,
-		"rarity": rarity,
-		"value": value,
-		"item_id": item_id,
+		"name": name,
+		"category": category,
+		"part_description": part_description,
+		"full_description": full_description,
+		"type_replace": type_replace,
+		"value_replace": value_replace,
+		"modifier_value": modifier_value,
 	}
 
 func from_dict(data: Dictionary) -> void:
 	id = str(data.get("id", ""))
-	buff_name = str(data.get("buff_name", ""))
-	description = str(data.get("description", ""))
-	buff_type = int(data.get("buff_type", BuffType.ATTACK_UP)) as BuffType
-	rarity = int(data.get("rarity", Rarity.NORMAL)) as Rarity
-	value = float(data.get("value", 0.0))
-	item_id = str(data.get("item_id", ""))
+	name = str(data.get("name", ""))
+	category = str(data.get("category", "normal"))
+	part_description = str(data.get("part_description", ""))
+	full_description = str(data.get("full_description", ""))
+	type_replace = data.get("type_replace", [])
+	value_replace = data.get("value_replace", [])
+	modifier_value = data.get("modifier_value", {})
 
-## 获取稀有度字符串
-func get_rarity_string() -> String:
-	match rarity:
-		Rarity.NORMAL:
-			return "普通"
-		Rarity.RARE:
-			return "稀有"
-		Rarity.LEGEND:
-			return "传奇"
-	return "未知"
+## 获取格式化后的详细描述
+func get_formatted_description() -> String:
+	var desc = full_description
+	for val in value_replace:
+		desc = desc.replace("%s", str(val))
+	return desc

@@ -2,27 +2,12 @@
 class_name StrategyManager
 extends RefCounted
 
-## Buff 类型枚举（复制自 StrategyBuff）
-enum BuffType {
-	WEAPON,          # 获得新武器
-	BULLET,          # 获得新子弹
-	ATTACK_UP,       # 攻击力提升
-	SPEED_UP,        # 移速提升
-	DEFENSE_UP,      # 防御力提升
-	GOLD_UP,         # 金币倍增
-	ENERGY_UP,       # 能量上限提高
-	CRIT_RATE_UP,    # 暴击率提高
-	CRIT_DAMAGE_UP,  # 暴击伤害提高
-}
-
 ## 升级选项
 class UpgradeOption:
-	var buff
+	var buff: StrategyBuff
 	var index: int = 0
 	func _to_string() -> String:
-		var rarity_names: Array = ["普通", "稀有", "传奇"]
-		var rarity_name: String = rarity_names[buff.rarity] if buff else "未知"
-		return "%s (稀有度: %s)" % [buff.buff_name if buff else "无", rarity_name]
+		return "%s (稀有度: %s)" % [buff.name if buff else "无", buff.category if buff else "未知"]
 
 ## 升级权重配置（基于玩家等级）
 const LEVEL_WEIGHTS := {
@@ -34,60 +19,78 @@ const LEVEL_WEIGHTS := {
 }
 
 ## 所有可用的 Buff 库
-var buff_library: Array = []
+var buff_library: Array[StrategyBuff] = []
 
 ## 生成升级选项（三选一）
 func generate_upgrade_options(player_level: int, count: int = 3) -> Array:
 	var options: Array = []
-	var selected_rarities: Array = []
-	
-	# 根据玩家等级选择稀有度权重
 	var weights := _get_weights_for_level(player_level)
 	
-	# 生成三个选项，每个选项随机一个稀有度
-	for i in range(count):
-		var rarity := _pick_rarity_by_weight(weights)
-		selected_rarities.append(rarity)
+	# 为了避免重复，我们先过滤出所有可用的 buff
+	var available_buffs = buff_library.duplicate()
+	available_buffs.shuffle()
 	
-	# 从相应稀有度的 Buff 中随机选择
-	for rarity in selected_rarities:
-		var matching_buffs = buff_library.filter(func(b): return b.rarity == rarity)
+	for i in range(count):
+		var category := _pick_category_by_weight(weights)
+		var matching_buffs = available_buffs.filter(func(b): return b.category == category)
+		
 		if matching_buffs.is_empty():
-			continue
-		var buff = matching_buffs[randi() % matching_buffs.size()]
-		var option := UpgradeOption.new()
-		option.buff = buff
-		option.index = options.size()
-		options.append(option)
+			# 如果该稀有度没 buff 了，尝试其他稀有度
+			matching_buffs = available_buffs
+			
+		if not matching_buffs.is_empty():
+			var buff = matching_buffs[0]
+			available_buffs.erase(buff) # 避免同一次选择中出现重复 buff
+			
+			var option := UpgradeOption.new()
+			option.buff = buff
+			option.index = options.size()
+			options.append(option)
 	
 	return options
 
 ## 应用 Buff 到角色
-func apply_buff(character, buff) -> void:
-	match buff.buff_type:
-		BuffType.ATTACK_UP:
-			character.apply_buff("attack", buff.value)
-		BuffType.SPEED_UP:
-			character.apply_buff("speed", buff.value)
-		BuffType.DEFENSE_UP:
-			character.apply_buff("defense", buff.value)
-		BuffType.ENERGY_UP:
-			character.apply_buff("energy", buff.value)
-		BuffType.CRIT_RATE_UP:
-			character.apply_buff("crit_rate", buff.value)
-		BuffType.CRIT_DAMAGE_UP:
-			character.apply_buff("crit_damage", buff.value)
-		BuffType.GOLD_UP:
-			character.gold = int(float(character.gold) * (1.0 + buff.value))
-		BuffType.WEAPON:
-			if buff.item_id not in character.owned_weapons:
-				character.owned_weapons.append(buff.item_id)
-		BuffType.BULLET:
-			if buff.item_id not in character.owned_bullets:
-				character.owned_bullets.append(buff.item_id)
+func apply_buff(character: CharacterTemplate, buff: StrategyBuff) -> void:
+	for key in buff.modifier_value.keys():
+		var value = buff.modifier_value[key]
+		var val_float = float(value) if value is float or value is int else 0.0
+		var val_int = int(value) if value is float or value is int else 0
+		
+		match key:
+			"gain_weapon":
+				# 从武器池中获得一把随机武器 (这里需要一个全局武器池，暂时假设 character.owned_weapons 存储 ID)
+				# 逻辑应由 GameManager 或专门的 Pool 管理器处理
+				pass
+			"gain_bullet":
+				# 从子弹池中获得一类随机子弹
+				pass
+			"attack_mult":
+				character.apply_strategy_modifier("attack_up", val_float, 0)
+			"attack_add":
+				character.apply_strategy_modifier("attack_up", 0.0, val_int)
+			"speed_add":
+				character.apply_strategy_modifier("speed_up", 0.0, val_int)
+			"defense_mult":
+				character.apply_strategy_modifier("defense_up", val_float, 0)
+			"defense_add":
+				character.apply_strategy_modifier("defense_up", 0.0, val_int)
+			"gold_mult":
+				character.apply_strategy_modifier("gold_up", val_float, 0)
+			"gold_add":
+				character.apply_strategy_modifier("gold_up", 0.0, val_int)
+			"energy_max_add":
+				character.apply_strategy_modifier("energy_up", 0.0, val_int)
+			"weapon_slot_add":
+				character.apply_strategy_modifier("weapon_slot", 0.0, val_int)
+			"weapon_crit_rate_mult":
+				# 武器暴击率提高
+				pass
+			"weapon_crit_damage_mult":
+				# 武器暴击伤害提高
+				pass
 
 ## 注册一个 Buff
-func register_buff(buff) -> void:
+func register_buff(buff: StrategyBuff) -> void:
 	if buff not in buff_library:
 		buff_library.append(buff)
 
@@ -99,26 +102,15 @@ func clear_buffs() -> void:
 # 内部方法
 # ──────────────────────────────────────────────
 
-func _get_weights_for_level(player_level: int) -> Array:
-	if player_level <= 20:
-		return [0.8, 0.15, 0.05]
-	elif player_level <= 40:
-		return [0.6, 0.3, 0.1]
-	elif player_level <= 60:
-		return [0.3, 0.5, 0.2]
-	elif player_level <= 80:
-		return [0.1, 0.4, 0.5]
-	else:
-		return [0.1, 0.2, 0.7]
+func _get_weights_for_level(level: int) -> Array:
+	if level <= 20: return LEVEL_WEIGHTS["1-20"]
+	if level <= 40: return LEVEL_WEIGHTS["21-40"]
+	if level <= 60: return LEVEL_WEIGHTS["41-60"]
+	if level <= 80: return LEVEL_WEIGHTS["61-80"]
+	return LEVEL_WEIGHTS["81-100"]
 
-func _pick_rarity_by_weight(weights: Array) -> int:
-	var rand_val := randf()
-	var cumulative := 0.0
-	
-	# 根据权重选择稀有度
-	for i in range(weights.size()):
-		cumulative += weights[i]
-		if rand_val <= cumulative:
-			return i  # 0=普通, 1=稀有, 2=传奇
-	
-	return 0  # 默认普通
+func _pick_category_by_weight(weights: Array) -> String:
+	var r = randf()
+	if r < weights[0]: return "normal"
+	if r < weights[0] + weights[1]: return "rare"
+	return "legend"

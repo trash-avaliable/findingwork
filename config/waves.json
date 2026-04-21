@@ -1,0 +1,136 @@
+{
+  "max_enemies_on_screen": 60,
+  "base_spawn_interval": 0.8,
+  "player_dps_baseline": 50.0,
+  "waves": [
+    {
+      "start_time": 0,
+      "end_time": 60,
+      "spawn_configs": [
+        {
+          "enemy_id": "spider_basic",
+          "weight": 100.0,
+          "min_spawn": 1,
+          "max_spawn": 3,
+          "elite_chance": 0.0
+        },
+        {
+          "enemy_id": "fleeing_drone",
+          "weight": 30.0,
+          "min_spawn": 1,
+          "max_spawn": 2,
+          "elite_chance": 0.0
+        }
+      ]
+    },
+    {
+      "start_time": 60,
+      "end_time": 120,
+      "spawn_configs": [
+        {
+          "enemy_id": "spider_basic",
+          "weight": 80.0,
+          "min_spawn": 2,
+          "max_spawn": 4,
+          "elite_chance": 0.05
+        },
+        {
+          "enemy_id": "spider_elite",
+          "weight": 20.0,
+          "min_spawn": 1,
+          "max_spawn": 1,
+          "elite_chance": 0.1
+        },
+        {
+          "enemy_id": "three_body_soldier",
+          "weight": 50.0,
+          "min_spawn": 1,
+          "max_spawn": 3,
+          "elite_chance": 0.1
+        },
+        {
+          "enemy_id": "stationary_turret",
+          "weight": 15.0,
+          "min_spawn": 1,
+          "max_spawn": 1,
+          "elite_chance": 0.0
+        }
+      ]
+    },
+    {
+      "start_time": 120,
+      "end_time": 200,
+      "spawn_configs": [
+        {
+          "enemy_id": "spider_basic",
+          "weight": 60.0,
+          "min_spawn": 3,
+          "max_spawn": 5,
+          "elite_chance": 0.1
+        },
+        {
+          "enemy_id": "spider_elite",
+          "weight": 40.0,
+          "min_spawn": 1,
+          "max_spawn": 2,
+          "elite_chance": 0.15
+        },
+        {
+          "enemy_id": "three_body_soldier",
+          "weight": 80.0,
+          "min_spawn": 2,
+          "max_spawn": 4,
+          "elite_chance": 0.15
+        },
+        {
+          "enemy_id": "three_body_commander",
+          "weight": 10.0,
+          "min_spawn": 1,
+          "max_spawn": 1,
+          "elite_chance": 0.2
+        },
+        {
+          "enemy_id": "stationary_turret",
+          "weight": 25.0,
+          "min_spawn": 1,
+          "max_spawn": 2,
+          "elite_chance": 0.0
+        }
+      ]
+    },
+    {
+      "start_time": 200,
+      "end_time": 300,
+      "spawn_configs": [
+        {
+          "enemy_id": "spider_elite",
+          "weight": 60.0,
+          "min_spawn": 2,
+          "max_spawn": 4,
+          "elite_chance": 0.2
+        },
+        {
+          "enemy_id": "three_body_soldier",
+          "weight": 100.0,
+          "min_spawn": 3,
+          "max_spawn": 5,
+          "elite_chance": 0.2
+        },
+        {
+          "enemy_id": "three_body_commander",
+          "weight": 30.0,
+          "min_spawn": 1,
+          "max_spawn": 2,
+          "elite_chance": 0.3
+        },
+        {
+          "enemy_id": "stationary_turret",
+          "weight": 40.0,
+          "min_spawn": 2,
+          "max_spawn": 3,
+          "elite_chance": 0.1
+        }
+      ]
+    }
+  ]
+}

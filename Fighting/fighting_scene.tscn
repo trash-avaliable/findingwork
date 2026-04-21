@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dinrcdivxfunu"]
 
 [ext_resource type="Material" uid="uid://dq3mgp66elt8t" path="res://shader/holograph.tres" id="1_caxq2"]
+[ext_resource type="PackedScene" uid="uid://cv042n7au3h2s" path="res://UI/strategy_select_ui.tscn" id="2_ec6ud"]
 
 [sub_resource type="Environment" id="Environment_ec6ud"]
 glow_enabled = true
@@ -16,3 +17,7 @@ offset_bottom = 40.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=534362090]
 environment = SubResource("Environment_ec6ud")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1077176914]
+
+[node name="StrategySelectUI" parent="CanvasLayer" unique_id=620583155 instance=ExtResource("2_ec6ud")]

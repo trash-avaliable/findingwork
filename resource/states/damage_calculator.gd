@@ -2,60 +2,72 @@
 class_name DamageCalculator
 extends RefCounted
 
-## 伤害类型枚举
-enum DamageType { NORMAL, DOT, SLOW, TREMOR, EXPLOSION, TRUE_DAMAGE }
-
 ## 伤害结果结构
 class DamageResult:
 	var damage: float = 0.0
 	var is_crit: bool = false
-	var damage_type: int = DamageType.NORMAL
+	var category: String = "normal"
 	var segments: Array[float] = []  # DOT 分段伤害
 
 ## 计算伤害
-static func calculate_damage(attacker, bullet, weapon, defender) -> DamageResult:
+## attacker: CharacterTemplate 或类似对象
+## bullet: BulletData
+## weapon: WeaponData
+## skill: SkillData (可选)
+## defender: EnemyData 或类似对象
+static func calculate_damage(attacker, bullet: BulletData, weapon: WeaponData, defender, skill: SkillData = null) -> DamageResult:
 	var result := DamageResult.new()
-	result.damage_type = bullet.damage_type
+	result.category = bullet.category
 
-	# 基础伤害 = 子弹攻击力 + 武器附加攻击力 + 角色攻击力
+	# 基础伤害 = 子弹攻击力 + 武器附加攻击力 + 角色攻击力 + 技能附加攻击力
 	var base_damage: float = bullet.attack + weapon.normal_extra_attack + attacker.attack
+	if skill:
+		base_damage += skill.extra_attack
 
-	# 判断是否暴击
-	result.is_crit = randf() < weapon.crit_rate
-	var final_damage: float = base_damage
-	if result.is_crit:
-		final_damage *= weapon.crit_damage
-
+	# 判断是否暴击 (除了爆炸和真伤外，根据暴击率触发)
+	var crit_rate = weapon.damage_percent
+	var crit_multiplier = weapon.damage
+	
+	result.is_crit = randf() < crit_rate
+	
 	# 根据伤害类型计算最终伤害
-	match bullet.damage_type:
-		DamageType.NORMAL:
+	match bullet.category:
+		"normal":
+			var final_damage = base_damage
+			if result.is_crit:
+				final_damage *= crit_multiplier
 			result.damage = max(0.0, final_damage - defender.defense)
 
-		DamageType.DOT:
-			# 持续伤害：敌人血量 - (每层DOT伤害 - 敌人防御力) * 段数
-			var dot_damage: float = bullet.damage_value
+		"constant": # DOT
+			# 持续伤害：(每层dot伤害 - 敌人防御力) * 段数
+			# 假设 modifier 包含 dot_damage 和 segments (段数由 bullet.modifier 提供)
+			var dot_damage: float = bullet.modifier.get("dot_damage", bullet.attack)
+			var segments: int = int(bullet.modifier.get("segments", 3))
 			var segment_damage: float = max(0.0, (dot_damage - defender.defense))
-			result.damage = segment_damage * bullet.segments
+			result.damage = segment_damage * segments
 			# 分段显示
-			for i in range(bullet.segments):
+			for i in range(segments):
 				result.segments.append(segment_damage)
 
-		DamageType.SLOW:
-			# 减速不造成伤害，只返回数值用于状态应用
-			result.damage = bullet.damage_value
+		"speed_down": # SLOW
+			# 减速公式：敌人移速 - 减速，if小于0则为0
+			# 减速数值存储在 modifier.slow_amount
+			result.damage = bullet.modifier.get("slow_amount", 0.0)
 
-		DamageType.TREMOR:
-			# 震颤：防御力 * 防御力百分比 / 敌人防御力 - 减防
-			var defense_reduction: float = defender.defense * bullet.damage_value
-			result.damage = defense_reduction
+		"defense_down": # TREMOR
+			# 震颤公式：敌人防御力 * 防御力百分比
+			# 百分比存储在 modifier.defense_reduce_percent
+			var percent = bullet.modifier.get("defense_reduce_percent", 0.0)
+			result.damage = defender.defense * percent
 
-		DamageType.EXPLOSION:
-			# 爆炸：敌人血量+防御力-基础伤害*暴击伤害（必定暴击）
+		"explosion":
+			# 爆炸：必定暴击，计算伤害
 			result.is_crit = true
-			result.damage = base_damage * weapon.crit_damage - defender.defense
+			result.damage = max(0.0, base_damage * crit_multiplier - defender.defense)
 
-		DamageType.TRUE_DAMAGE:
-			# 真伤：敌人血量-基础伤害（无视防御）
+		"truehurt":
+			# 真伤：无视防御，不吃暴击
+			result.is_crit = false
 			result.damage = base_damage
 
 	result.damage = max(0.0, result.damage)

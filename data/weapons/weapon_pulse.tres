@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resource/states/weapon_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "weapon_001"
+weapon_name = "脉冲步枪"
+damage_percent = 0.15
+damage = 1.8
+normal_range_x = 400.0
+normal_range_y = 100.0
+normal_attack_image = ""
+normal_target = 3
+normal_extra_attack = 5.0
+normal_cold_time = 0.3
+extra_energy_cost = 1
+power = 0.5
+weapon_level = 1
+weapon_skill = ""
+bullets = ["bullet_001"]
