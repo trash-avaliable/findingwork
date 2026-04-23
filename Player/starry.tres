@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cwckl7u6plp4x"]
+
+[ext_resource type="Shader" uid="uid://6s6mog3m4wqm" path="res://shader/starry.gdshader" id="1_7x04g"]
+
+[resource]
+shader = ExtResource("1_7x04g")
+shader_parameter/star_density = 12.00000056930148
+shader_parameter/star_brightness = 4.00000018674012
+shader_parameter/star_size = 0.02000000025148
+shader_parameter/background_color = Color(0, 0, 0, 1)

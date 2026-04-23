@@ -4,14 +4,16 @@
 
 [resource]
 shader = ExtResource("1_phc3d")
-shader_parameter/hologram_color = Color(0.11764706, 0.5372549, 0.4117647, 1)
+shader_parameter/hologram_color = Color(2.2350323e-05, 0.41514307, 0.36339748, 1)
 shader_parameter/brightness = 0.974000046265
-shader_parameter/edge_glow = 0.5130000243675
-shader_parameter/scanline_speed = 1.4730003074675002
-shader_parameter/scanline_density = 39.5670018319325
-shader_parameter/scanline_thickness = 1.0
+shader_parameter/edge_glow = 0.6
+shader_parameter/scanline_speed = 1.5
+shader_parameter/scanline_density = 80.8010037905475
+shader_parameter/scanline_thickness = 0.8710000381126201
 shader_parameter/grid_density = 1.0
 shader_parameter/grid_thickness = 0.00999999977648
 shader_parameter/grid_speed = 0.10000024225000016
 shader_parameter/glitch_strength = 0.22800001083
 shader_parameter/glitch_speed = 0.40600001602512
+shader_parameter/corner_fade_strength = 1.0
+shader_parameter/corner_fade_size = 0.2270000107825

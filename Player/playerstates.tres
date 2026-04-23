@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CharacterTemplate" format=3 uid="uid://dbqxin2uid5et"]
+
+[ext_resource type="Script" uid="uid://bd5s1vmpegs51" path="res://resource/states/normal_model.gd" id="1_yq0uu"]
+
+[resource]
+script = ExtResource("1_yq0uu")
+metadata/_custom_type_script = "uid://bd5s1vmpegs51"

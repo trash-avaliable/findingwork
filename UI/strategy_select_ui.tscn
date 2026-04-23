@@ -1,7 +1,155 @@
 [gd_scene format=3 uid="uid://cv042n7au3h2s"]
 
+[ext_resource type="Material" uid="uid://dq3mgp66elt8t" path="res://shader/holograph.tres" id="1_6ksxc"]
+[ext_resource type="PackedScene" uid="uid://c0o2v5ljs5yjm" path="res://UI/level_bar.tscn" id="2_xkf1o"]
+
 [node name="StrategySelectUI" type="Control" unique_id=620583155]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Strategys" type="Control" parent="." unique_id=1830140351]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StrategyContainer1" type="MarginContainer" parent="Strategys" unique_id=829136497]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 420.0
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 80
+
+[node name="Strategy1" type="ColorRect" parent="Strategys/StrategyContainer1" unique_id=1263389054]
+material = ExtResource("1_6ksxc")
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Strategys/StrategyContainer1" unique_id=587124594]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Strategys/StrategyContainer1/MarginContainer" unique_id=1938428248]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LevelBar" parent="Strategys/StrategyContainer1/MarginContainer/VBoxContainer" unique_id=1629900444 instance=ExtResource("2_xkf1o")]
+layout_mode = 2
+
+[node name="StrategyName1" type="Label" parent="Strategys/StrategyContainer1/MarginContainer/VBoxContainer" unique_id=1750593925]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="StrategyDescription1" type="RichTextLabel" parent="Strategys/StrategyContainer1/MarginContainer/VBoxContainer" unique_id=670457551]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+
+[node name="LevelBar2" parent="Strategys/StrategyContainer1/MarginContainer/VBoxContainer" unique_id=1406320276 instance=ExtResource("2_xkf1o")]
+layout_mode = 2
+alignment = 2
+
+[node name="StrategyContainer2" type="MarginContainer" parent="Strategys" unique_id=2010254492]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 80
+
+[node name="Strategy2" type="ColorRect" parent="Strategys/StrategyContainer2" unique_id=1180174391]
+material = ExtResource("1_6ksxc")
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Strategys/StrategyContainer2" unique_id=385472816]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Strategys/StrategyContainer2/MarginContainer" unique_id=990731192]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LevelBar" parent="Strategys/StrategyContainer2/MarginContainer/VBoxContainer" unique_id=1052223180 instance=ExtResource("2_xkf1o")]
+layout_mode = 2
+
+[node name="StrategyName1" type="Label" parent="Strategys/StrategyContainer2/MarginContainer/VBoxContainer" unique_id=636635728]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="StrategyDescription1" type="RichTextLabel" parent="Strategys/StrategyContainer2/MarginContainer/VBoxContainer" unique_id=726942131]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+
+[node name="LevelBar2" parent="Strategys/StrategyContainer2/MarginContainer/VBoxContainer" unique_id=1687201300 instance=ExtResource("2_xkf1o")]
+layout_mode = 2
+alignment = 2
+
+[node name="StrategyContainer3" type="MarginContainer" parent="Strategys" unique_id=470813789]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 80
+
+[node name="Strategy3" type="ColorRect" parent="Strategys/StrategyContainer3" unique_id=2103915514]
+material = ExtResource("1_6ksxc")
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Strategys/StrategyContainer3" unique_id=1886008802]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Strategys/StrategyContainer3/MarginContainer" unique_id=1348418330]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LevelBar" parent="Strategys/StrategyContainer3/MarginContainer/VBoxContainer" unique_id=533043783 instance=ExtResource("2_xkf1o")]
+layout_mode = 2
+
+[node name="StrategyName1" type="Label" parent="Strategys/StrategyContainer3/MarginContainer/VBoxContainer" unique_id=2125984977]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="StrategyDescription1" type="RichTextLabel" parent="Strategys/StrategyContainer3/MarginContainer/VBoxContainer" unique_id=891129389]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+
+[node name="LevelBar2" parent="Strategys/StrategyContainer3/MarginContainer/VBoxContainer" unique_id=1366177018 instance=ExtResource("2_xkf1o")]
+layout_mode = 2
+alignment = 2
+
+[editable path="Strategys/StrategyContainer1/MarginContainer/VBoxContainer/LevelBar"]

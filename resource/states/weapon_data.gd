@@ -6,16 +6,13 @@ extends SaveResource
 var id: String = ""
 var weapon_name: String = ""
 
-## 暴击属性 (对应文档中的 damage_percent 和 damage)
-var damage_percent: float = 0.0      # 暴击率
-var damage: float = 1.5              # 暴击伤害倍数
+## 暴击属性
+var crit_rate: float = 0.0      # 暴击率
+var crit_damage: float = 1.5    # 暴击伤害倍数
 
 ## 普通攻击范围 (X, Y方向半径)
 var normal_range_x: float = 100.0
 var normal_range_y: float = 100.0
-
-## 攻击范围图
-var normal_attack_image: String = ""
 
 ## 攻击目标人数
 var normal_target: int = 1
@@ -27,19 +24,13 @@ var normal_extra_attack: float = 0.0
 var normal_cold_time: float = 0.5
 
 ## 额外能量消耗
-var extra_energy_cost: int = 0
+var extra_energy_cost: float = 0.0
 
 ## 后坐力
 var power: float = 0.0
 
-## 武器等级
-var weapon_level: int = 1
-
-## 大招（对应 skillscene，存储路径或ID）
-var weapon_skill: String = ""
-
-## 持有的子弹类型（对应 bullet_id）
-var bullets: Array[String] = []
+## 大招技能ID
+var skill_id: String = ""
 
 # ──────────────────────────────────────────────
 # SaveResource 接口
@@ -52,34 +43,28 @@ func to_dict() -> Dictionary:
 	return {
 		"id": id,
 		"weapon_name": weapon_name,
-		"damage_percent": damage_percent,
-		"damage": damage,
+		"crit_rate": crit_rate,
+		"crit_damage": crit_damage,
 		"normal_range_x": normal_range_x,
 		"normal_range_y": normal_range_y,
-		"normal_attack_image": normal_attack_image,
 		"normal_target": normal_target,
 		"normal_extra_attack": normal_extra_attack,
 		"normal_cold_time": normal_cold_time,
 		"extra_energy_cost": extra_energy_cost,
 		"power": power,
-		"weapon_level": weapon_level,
-		"weapon_skill": weapon_skill,
-		"bullets": bullets,
+		"skill_id": skill_id,
 	}
 
 func from_dict(data: Dictionary) -> void:
 	id = str(data.get("id", ""))
 	weapon_name = str(data.get("weapon_name", ""))
-	damage_percent = float(data.get("damage_percent", 0.0))
-	damage = float(data.get("damage", 1.5))
+	crit_rate = float(data.get("crit_rate", 0.0))
+	crit_damage = float(data.get("crit_damage", 1.5))
 	normal_range_x = float(data.get("normal_range_x", 100.0))
 	normal_range_y = float(data.get("normal_range_y", 100.0))
-	normal_attack_image = str(data.get("normal_attack_image", ""))
 	normal_target = int(data.get("normal_target", 1))
 	normal_extra_attack = float(data.get("normal_extra_attack", 0.0))
 	normal_cold_time = float(data.get("normal_cold_time", 0.5))
-	extra_energy_cost = int(data.get("extra_energy_cost", 0))
+	extra_energy_cost = float(data.get("extra_energy_cost", 0.0))
 	power = float(data.get("power", 0.0))
-	weapon_level = int(data.get("weapon_level", 1))
-	weapon_skill = str(data.get("weapon_skill", ""))
-	bullets = data.get("bullets", [])
+	skill_id = str(data.get("skill_id", ""))

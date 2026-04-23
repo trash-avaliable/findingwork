@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://c0o2v5ljs5yjm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_br7vu"]
+bg_color = Color(0.15482327, 0.93453515, 0.59455454, 1)
+skew = Vector2(0.64, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="LevelBar" type="HBoxContainer" unique_id=1629900444]
+
+[node name="ColorRect" type="Panel" parent="." unique_id=1406442463]
+custom_minimum_size = Vector2(15, 30)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_br7vu")
